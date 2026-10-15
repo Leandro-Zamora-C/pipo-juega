@@ -1,0 +1,2 @@
+(Opcional) Si quieres tu propia música de fondo, pon aquí un archivo llamado musica.mp3.
+Si no hay archivo, el juego usa una melodía alegre generada automáticamente.

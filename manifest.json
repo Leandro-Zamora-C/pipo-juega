@@ -1,0 +1,18 @@
+{
+  "name": "Pipo Juega · 500 minijuegos",
+  "short_name": "Pipo Juega",
+  "description": "500 minijuegos educativos y gratuitos para niños pequeños.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#bdeeff",
+  "theme_color": "#ffd54a",
+  "categories": ["education", "games", "kids"],
+  "icons": [
+    { "src": "img/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "img/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "img/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
