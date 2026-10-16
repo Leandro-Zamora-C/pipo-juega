@@ -1,6 +1,6 @@
 /* Service worker de Pipo Juega: permite instalarlo como app y jugar sin internet.
    Si cambias algún archivo y no ves los cambios, sube el número de VERSION. */
-const VERSION = 'pipo-v2';
+const VERSION = 'pipo-v2-1';
 const CORE = ['./', './index.html', './manifest.json', './css/estilos.css',
   './js/arte.js', './js/motor.js', './js/juegos-clasicos.js', './js/juegos-nuevos.js', './js/pantallas.js',
   './img/icon-192.png', './img/icon-512.png'];
