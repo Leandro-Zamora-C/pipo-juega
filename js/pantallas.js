@@ -3,7 +3,13 @@
    inicio · mapa de mundos · juego · festejo · cofres · papás · perfiles
 ===================================================================== */
 const G = { stage: null, n: 1, type: '', ctx: null, finished: false, mode: 'main', freeType: null, nextT: null, winT: null, err: 0, t0: 0 };
-const ORDER = ['globos', 'clasificar', 'popit', 'emociones', 'contar', 'huevo', 'rompecabezas', 'colorear', 'encontrar', 'granja', 'memoria', 'alimentar', 'trazar', 'cocinar', 'unir', 'vehiculos', 'bano', 'piano', 'laberinto', 'tamano', 'dentista', 'patrones', 'sombras', 'pinata', 'pescar', 'bomberos', 'clima', 'tunel', 'jardin', 'formas', 'diferencias', 'lavar', 'vestir'];
+const ORDER_BASE = ['globos', 'clasificar', 'popit', 'emociones', 'contar', 'huevo', 'rompecabezas', 'colorear', 'encontrar', 'granja', 'memoria', 'alimentar', 'trazar', 'cocinar', 'unir', 'vehiculos', 'bano', 'piano', 'laberinto', 'tamano', 'dentista', 'patrones', 'sombras', 'pinata', 'pescar', 'bomberos', 'clima', 'tunel', 'jardin', 'formas', 'diferencias', 'lavar', 'vestir'];
+/* 33 juegos base + los juegos nuevos (MAS_ORDER), mezclados de forma fija para que no se repitan seguidos */
+const ORDER = (() => {
+  const nw = typeof MAS_ORDER !== 'undefined' ? shuf(rng(20261016), MAS_ORDER) : [], base = ORDER_BASE, total = base.length + nw.length, out = [base[0]]; let b = 1, m = 0;
+  for (let i = 1; i < total; i++) { if ((b < base.length && Math.floor(i * base.length / total) >= b) || m >= nw.length) out.push(base[b++]); else out.push(nw[m++]); }
+  return out;
+})();
 const WORLDS = [
   { n: ['Granja', 'Farm'], icon: '🐮', theme: 'granja' }, { n: ['Bosque', 'Forest'], icon: '🌳', theme: 'bosque' }, { n: ['Mar', 'Sea'], icon: '🐠', theme: 'mar' },
   { n: ['Jardín', 'Garden'], icon: '🌻', theme: 'jardin' }, { n: ['Ciudad', 'City'], icon: '🏙️', theme: 'ciudad' }, { n: ['Dulces', 'Candy'], icon: '🍭', theme: 'dulce' },
@@ -17,7 +23,7 @@ function levelSpec(n) {
   const i = n - 1, en = enabledTypes(); let type = ORDER[i % ORDER.length];
   if (!en.includes(type)) { const k = ORDER.indexOf(type); type = ORDER.slice(k).concat(ORDER.slice(0, k)).find(t => en.includes(t)); }
   const round = Math.floor(i / ORDER.length);
-  return { type, round, d: clamp(Math.floor(round / 3) + ageAdj(), 0, 4), seed: hashN(n * 7919 + 13) };
+  return { type, round, d: clamp((ORDER.length > 60 ? round : Math.floor(round / 3)) + ageAdj(), 0, 4), seed: hashN(n * 7919 + 13) };
 }
 function show(id) { document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id)); }
 function say(t) {
@@ -139,7 +145,7 @@ function checkStreak() {
 function renderHome() {
   const p = curProfile(); setMascot($('#homeMascot'), 'happy');
   document.documentElement.style.setProperty('--acc', p.color);
-  $('#homeTitle').textContent = 'Pipo Juega'; $('#homeSub').textContent = L('500 minijuegos para aprender jugando', '500 mini games to learn and play');
+  $('#homeTitle').textContent = 'Pipo Juega'; $('#homeSub').textContent = L('114 juegos · 500 niveles para aprender jugando', '114 games · 500 levels to learn and play');
   const lv = Math.min(S.best, TOTAL), done = doneCount();
   $('#playLbl').textContent = done ? `${L('Seguir', 'Continue')} · ${L('Nivel', 'Level')} ${lv}` : L('¡A jugar!', "Let's play!");
   $('#homeBar').style.width = (done / TOTAL * 100) + '%'; $('#homeTxt').textContent = `${done} ${L('de', 'of')} ${TOTAL} · ⭐ ${S.stars}`;
