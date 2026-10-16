@@ -4,7 +4,7 @@
 
 # 🐥 Pipo Juega
 
-**500 minijuegos educativos y gratuitos para niños pequeños (2 a 7 años).**
+**114 juegos educativos y 500 niveles gratuitos para niños pequeños (2 a 7 años).**
 
 Colores, números, letras, animales, emociones, música, formas y hábitos de cuidado. Tiene voz en español e inglés, dibujos propios y animaciones, y no muestra anuncios.
 
@@ -16,6 +16,19 @@ Colores, números, letras, animales, emociones, música, formas y hábitos de cu
 </div>
 
 ---
+
+## 🆕 Versión 3: ¡114 juegos!
+
+Se agregaron **81 juegos nuevos**, así que en los 500 niveles cada juego sale solo 4 o 5 veces y la dificultad sube en cada vuelta.
+
+| Tipo | Juegos |
+|---|---|
+| ❓ **Preguntas** (31) | Vocales · Primera letra · Números · Más y menos · Sumas · Se fueron volando (restas) · ¿Qué falta? · Opuestos · ¿Quién suena? · ¿Dónde vive? · Mezcla colores · Mi cuerpo · Oficios · El que no va · El semáforo · Comida sana · El reloj · Dados · Formas a mi alrededor · Instrumentos · La balanza · Vasos de agua · Torres de bloques · Gusanitos · Gemelos · ¿Qué pasa después? · ¿Quién se esconde? · ¿De qué color es? · Regalos sorpresa · Dominó · El diferente |
+| 🧺 **Clasificar** (13) | Frutas y verduras · Reciclar · Día y noche · ¿Por dónde va? · Maletas de viaje · Mascota o salvaje · Vuelan, nadan, caminan · Ordena el cuarto · Cajas de formas · De compras · Estacionamiento · El cartero · Mariposas y flores |
+| 🔗 **Parejas** (8) | Grande y pequeña (letras) · Número y cantidad · ¿Qué usa cada uno? · Calcetines · Mamá y bebé · Llaves y candados · Mitades · ¿Qué come cada uno? |
+| 🔢 **Ordenar** (9) | Burbujas numéricas · El abecedario · Cuenta regresiva · Mi día · ¿Cómo crece? · De chico a grande · Mi nombre · Pinta el arcoíris · Tren de números |
+| 🧩 **Armar y preparar** (5) | Muñeco de nieve · Poner la mesa · Arma la carita · Heladería · Hamburguesas |
+| 🎯 **Acción** (15) | Atrapa la fruta · ¿Quién sale? · Las escondidas · La cosecha · Sopla las velitas · El acuario · ¡Gol! · La tiendita · El bus · Pizarra mágica · Mariposa espejo · Banda musical · Pinta por números · Cruzar la calle · Luciérnagas |
 
 ## ✨ Novedades de la versión 2
 
@@ -29,11 +42,11 @@ Colores, números, letras, animales, emociones, música, formas y hábitos de cu
 | 👨‍👩‍👧 **Papás** | Candado con una suma, límite de tiempo diario (Pipo se va a dormir), reporte de avance, elegir qué juegos salen, modo noche y modo liviano. |
 | ☁️ **Nube (opcional)** | El avance se guarda con un código y se puede pasar a otro dispositivo, usando Supabase. |
 
-## 🎮 Los 33 tipos de minijuegos
+## 🎮 Los 33 juegos de la versión 2
 
 Globos · Ordenar frutas · Pop-it · Emociones · Contar · Huevo sorpresa · Rompecabezas · Colorear · Encuentra · Granja musical · Memoria · Dar de comer · Trazar · Cocinar · Unir puntos · Vehículos · Hora del baño · Piano · Laberinto · Grande y pequeño · Dentista · Patrones · Sombras · Piñata · Pescar · Bomberos · Ropa y clima · Túnel del conejo · Jardín · Encaja formas · Diferencias · Lavar · Viste a Pipo
 
-Los 500 niveles se reparten entre los 33 tipos, y cada nivel es distinto: cambian los animales, colores, cantidades y fondos. La dificultad sube poco a poco.
+Cada nivel es distinto: cambian los animales, colores, cantidades y fondos. La dificultad sube poco a poco.
 
 ## 📁 Estructura
 
@@ -44,7 +57,9 @@ Los 500 niveles se reparten entre los 33 tipos, y cada nivel es distinto: cambia
 │   ├── arte.js           ← dibujos: animales, Pipo, accesorios y fondos
 │   ├── motor.js          ← sonidos, voz, guardado, perfiles y ⚙️ CONFIG (Supabase)
 │   ├── juegos-clasicos.js← 20 juegos
-│   ├── juegos-nuevos.js  ← 13 juegos nuevos
+│   ├── juegos-nuevos.js  ← 13 juegos de la v2
+│   ├── juegos-mas.js     ← 66 juegos v3 (preguntas, clasificar, parejas, ordenar, armar)
+│   ├── juegos-accion.js  ← 15 juegos de acción v3
 │   └── pantallas.js      ← inicio, mapa, festejos, cofres y panel de papás
 ├── img/                  ← íconos y vista previa para compartir
 ├── audio/                ← (opcional) musica.mp3 propia
@@ -56,7 +71,6 @@ Los 500 niveles se reparten entre los 33 tipos, y cada nivel es distinto: cambia
 
 1. Sube todos los archivos y carpetas a un repositorio de GitHub.
 2. En [vercel.com](https://vercel.com) elige **Add New → Project**, importa el repositorio y pulsa **Deploy**. No hace falta configurar nada.
-3. En `index.html`, cambia `TU-PAGINA` por tu dirección de Vercel en la línea `og:image`. Así se verá la imagen al compartir por WhatsApp.
 
 ## ☁️ Guardado en la nube (opcional)
 

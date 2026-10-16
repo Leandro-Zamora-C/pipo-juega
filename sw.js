@@ -1,8 +1,8 @@
 /* Service worker de Pipo Juega: permite instalarlo como app y jugar sin internet.
    Si cambias algún archivo y no ves los cambios, sube el número de VERSION. */
-const VERSION = 'pipo-v2-1';
+const VERSION = 'pipo-v3';
 const CORE = ['./', './index.html', './manifest.json', './css/estilos.css',
-  './js/arte.js', './js/motor.js', './js/juegos-clasicos.js', './js/juegos-nuevos.js', './js/pantallas.js',
+  './js/arte.js', './js/motor.js', './js/juegos-clasicos.js', './js/juegos-nuevos.js', './js/juegos-mas.js', './js/juegos-accion.js', './js/pantallas.js',
   './img/icon-192.png', './img/icon-512.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(VERSION).then(c => c.addAll(CORE)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== VERSION).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
