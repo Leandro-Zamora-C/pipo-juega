@@ -19,11 +19,20 @@ const WORLDS = [
 const tName = t => L(TYPES[t].name[0], TYPES[t].name[1]);
 const enabledTypes = () => { const on = ORDER.filter(t => !GL.set.off.includes(t)); return on.length ? on : ORDER; };
 function ageAdj() { const a = curProfile().age || 4; return a <= 2 ? -1 : a <= 4 ? 0 : a <= 6 ? 1 : 2; }
+/* Juegos con números: salen recién al final (desde el nivel 301) y empiezan fáciles.
+   Los primeros 300 niveles son solo juegos sin números, ideales para 2 a 4 años. */
+const NUM_GAMES = ['contar', 'unir', 'numeros', 'masmenos', 'sumas', 'restas', 'quefalta', 'dados', 'reloj', 'domino', 'numcantidad', 'burbujas', 'cohete', 'tren', 'cartero', 'tiendita', 'mercado'];
+const NUM_START = 300;
+const LEVEL_SEQ = (() => {
+  const E = ORDER.filter(t => !NUM_GAMES.includes(t)), N = ORDER.filter(t => NUM_GAMES.includes(t)), out = []; let e = 0, k = 0;
+  for (let i = 0; i < TOTAL; i++) out.push(i >= NUM_START && N.length && (i - NUM_START) % 3 === 1 ? N[k++ % N.length] : E[e++ % E.length]);
+  return out;
+})();
 function levelSpec(n) {
-  const i = n - 1, en = enabledTypes(); let type = ORDER[i % ORDER.length];
-  if (!en.includes(type)) { const k = ORDER.indexOf(type); type = ORDER.slice(k).concat(ORDER.slice(0, k)).find(t => en.includes(t)); }
-  const round = Math.floor(i / ORDER.length);
-  return { type, round, d: clamp((ORDER.length > 60 ? round : Math.floor(round / 3)) + ageAdj(), 0, 4), seed: hashN(n * 7919 + 13) };
+  const i = n - 1, en = enabledTypes(); let type = LEVEL_SEQ[i] || ORDER[i % ORDER.length];
+  if (!en.includes(type)) { const pool = ORDER.filter(t => NUM_GAMES.includes(t) === NUM_GAMES.includes(type) && en.includes(t)), alt = pool.length ? pool : en; type = alt[i % alt.length]; }
+  const num = NUM_GAMES.includes(type), round = num ? Math.floor((i - NUM_START) / 100) : Math.floor(i / 100);
+  return { type, round, d: clamp(Math.max(0, round) + ageAdj(), 0, 4), seed: hashN(n * 7919 + 13) };
 }
 function show(id) { document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id)); }
 function say(t) {
