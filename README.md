@@ -4,9 +4,9 @@
 
 # 🐥 Pipo Juega
 
-**500 minijuegos educativos y gratuitos para niños pequeños (2 a 6 años).**
+**500 minijuegos educativos y gratuitos para niños pequeños (2 a 7 años).**
 
-Colores, números, letras, animales, formas, música y hábitos de cuidado, con voz en español, sonidos y animaciones.
+Colores, números, letras, animales, emociones, música, formas y hábitos de cuidado. Tiene voz en español e inglés, dibujos propios y animaciones, y no muestra anuncios.
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
@@ -17,66 +17,63 @@ Colores, números, letras, animales, formas, música y hábitos de cuidado, con 
 
 ---
 
-## ✨ Cómo funciona
+## ✨ Novedades de la versión 2
 
-- **500 niveles** que pasan solos: al completar un juego aparece un festejo y empieza el siguiente.
-- **Pipo**, un pollito amarillo, da las instrucciones **con voz en español**. El botón 💬 las repite.
-- Si el niño se queda quieto, aparece una **manito 👆** que le muestra qué tocar.
-- Cada 10 niveles se gana un **sticker** para el álbum (50 en total).
-- La dificultad sube poco a poco: más objetos, más opciones y canciones más largas.
-- Se guarda el avance en el dispositivo y **funciona sin internet** si se instala como app.
+| | |
+|---|---|
+| 🎨 **Gráficos** | 21 animalitos originales dibujados en código, con caras que cambian (feliz, triste, sorprendido…). Pipo animado que parpadea y aletea. 13 fondos ilustrados, transición de círculo entre juegos, fuegos artificiales, estrellas que vuelan y ondas al tocar. |
+| 🎮 **Juegos** | De 20 a **33 tipos**. Los nuevos son rompecabezas, trazar letras y números, vestir a Pipo, lavar platos y carro, granja musical, laberinto, pesca, jardín, patrones, diferencias, vehículos, ropa según el clima y emociones. |
+| 🔊 **Sonido** | Voces de animales sintetizadas y 5 canciones infantiles (Martinillo, Estrellita, Los pollitos, Arroz con leche, Cucú). Los papás pueden **grabar su propia voz** para felicitar, y Pipo dice el nombre del niño. |
+| 👧 **Perfiles** | Varios niños en el mismo dispositivo, cada uno con su nombre, edad, color y personaje. La dificultad se ajusta según la edad. Idioma español o inglés. |
+| 🗺️ **Motivación** | Mapa de 10 mundos (Granja, Bosque, Mar, Jardín, Ciudad, Dulces, Cocina, Noche, Espacio, Cielo). Álbum de 50 stickers animados, cofre sorpresa cada 25 niveles con accesorios para Pipo y racha de días seguidos 🔥. |
+| 👨‍👩‍👧 **Papás** | Candado con una suma, límite de tiempo diario (Pipo se va a dormir), reporte de avance, elegir qué juegos salen, modo noche y modo liviano. |
+| ☁️ **Nube (opcional)** | El avance se guarda con un código y se puede pasar a otro dispositivo, usando Supabase. |
 
-## 🎮 Los 20 tipos de minijuegos
+## 🎮 Los 33 tipos de minijuegos
 
-| | Juego | Qué aprende |
-|---|---|---|
-| 🎈 | Globos | Colores y coordinación |
-| 🧺 | Ordenar frutas | Clasificar por tipo y color |
-| 🫧 | Pop-it | Formas y motricidad fina |
-| 🔢 | Contar | Números del 1 al 10 |
-| 🥚 | Huevo sorpresa | Nombres y sonidos de animales |
-| 🖍️ | Colorear | Colores y creatividad (12 dibujos) |
-| 🔍 | Encuentra | Animales, frutas, colores, formas, números y letras |
-| 🃏 | Memoria | Concentración |
-| 🍌 | Dar de comer | Qué come cada animal |
-| 🍕 | Cocinar | Seguir una receta y contar |
-| ✏️ | Unir puntos | Orden de los números |
-| 🛁 | Hora del baño | Higiene |
-| 🎹 | Piano | Notas musicales y canciones infantiles |
-| 🐘 | Grande y pequeño | Tamaños |
-| 🦷 | Dentista | Cuidado de los dientes |
-| 👤 | Sombras | Observación |
-| 🎉 | Piñata | Coordinación |
-| 🚒 | Bomberos | Ayudar a los demás |
-| 🥕 | Túnel del conejo | Planificar un camino |
-| 🔺 | Encaja formas | Formas geométricas |
+Globos · Ordenar frutas · Pop-it · Emociones · Contar · Huevo sorpresa · Rompecabezas · Colorear · Encuentra · Granja musical · Memoria · Dar de comer · Trazar · Cocinar · Unir puntos · Vehículos · Hora del baño · Piano · Laberinto · Grande y pequeño · Dentista · Patrones · Sombras · Piñata · Pescar · Bomberos · Ropa y clima · Túnel del conejo · Jardín · Encaja formas · Diferencias · Lavar · Viste a Pipo
 
-## 📁 Archivos
+Los 500 niveles se reparten entre los 33 tipos, y cada nivel es distinto: cambian los animales, colores, cantidades y fondos. La dificultad sube poco a poco.
+
+## 📁 Estructura
 
 ```
-pipo-juega/
-├── index.html      # El juego completo (motor, dibujos, sonidos y los 20 minijuegos)
-├── manifest.json   # Para instalarlo como app
-├── sw.js           # Para jugar sin internet
-├── README.md
-├── img/            # Íconos e imagen para compartir
-└── audio/          # (Opcional) pon aquí musica.mp3 para tu propia música
+├── index.html            ← la página
+├── css/estilos.css       ← colores, tamaños y animaciones
+├── js/
+│   ├── arte.js           ← dibujos: animales, Pipo, accesorios y fondos
+│   ├── motor.js          ← sonidos, voz, guardado, perfiles y ⚙️ CONFIG (Supabase)
+│   ├── juegos-clasicos.js← 20 juegos
+│   ├── juegos-nuevos.js  ← 13 juegos nuevos
+│   └── pantallas.js      ← inicio, mapa, festejos, cofres y panel de papás
+├── img/                  ← íconos y vista previa para compartir
+├── audio/                ← (opcional) musica.mp3 propia
+├── docs/supabase-pipo.sql← (opcional) tabla para guardar en la nube
+├── manifest.json · sw.js ← para instalarlo como app y jugar sin internet
 ```
 
-No necesita librerías ni base de datos: todo el arte está dibujado con SVG y emojis, y los sonidos se generan con la Web Audio API.
+## 🚀 Publicar
 
-## 🛠️ Tecnologías
+1. Sube todos los archivos y carpetas a un repositorio de GitHub.
+2. En [vercel.com](https://vercel.com) elige **Add New → Project**, importa el repositorio y pulsa **Deploy**. No hace falta configurar nada.
+3. En `index.html`, cambia `TU-PAGINA` por tu dirección de Vercel en la línea `og:image`. Así se verá la imagen al compartir por WhatsApp.
 
-HTML5 · CSS3 · JavaScript sin frameworks · SVG · Canvas · Web Audio API · Speech Synthesis API · Service Worker (PWA) · localStorage
+## ☁️ Guardado en la nube (opcional)
 
-## 👨‍👩‍👧 Para papás
+1. Crea un proyecto gratis en [supabase.com](https://supabase.com).
+2. Ve a **SQL Editor**, pega el contenido de `docs/supabase-pipo.sql` y pulsa **Run**.
+3. En **Project Settings → API**, copia la *Project URL* y la llave *anon public*.
+4. Pégalas en `js/motor.js`, al inicio del archivo, en `SUPABASE_URL` y `SUPABASE_KEY`.
+5. En el juego, entra en **Papás → Nube → Crear código**. Con ese código se carga el avance en otro dispositivo.
 
-En **⚙️ Papás** puedes apagar la voz, la música o los efectos, ir a cualquier nivel, empezar de cero o poner pantalla completa.
+## 🎙️ Grabar tu voz
+
+Entra en **Papás → Tu voz**, pulsa **Grabar** junto a cada frase y habla unos 3 segundos. Pipo usará tu voz para felicitar al niño. La grabación queda solo en ese dispositivo.
+
+## 🔒 Privacidad
+
+No hay anuncios, cuentas ni rastreo. Todo se guarda en el propio dispositivo, salvo que actives la nube.
 
 ---
 
-<div align="center">
-
-Hecho con cariño por **Leandro Zamora Cóndor** · Proyecto gratuito y sin publicidad
-
-</div>
+<div align="center">Hecho con cariño por Leandro Zamora 💛</div>
