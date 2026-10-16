@@ -133,7 +133,7 @@ TYPES.granja = {
     const U = unit(c), sz = clamp(Math.min(c.W / 4.6, c.H * .42), 80, 210);
     const row = mk('div', '', '', c.stage, 'position:absolute;inset:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:3%;padding:4%');
     let len = 1, pos = 0, busy = true;
-    const cards = anims.map((a, i) => { const b = mk('div', 'card choice farmcard', animalSVG(a.k, 'happy'), row, `width:${sz}px;height:${sz}px;background:${bgc[i]};padding:6%`); b.i = i; b.addEventListener('pointerdown', () => tap(b)); return b; });
+    const cards = anims.map((a, i) => { const b = mk('div', 'card choice farmcard', animalSVG(a.k, 'happy'), row, `width:${sz}px;height:${sz}px;background:${bgc[i]};padding:${Math.round(sz * .1)}px`); b.i = i; b.addEventListener('pointerdown', () => tap(b)); return b; });
     const lightUp = i => { const b = cards[i]; b.classList.add('lit'); b.innerHTML = animalSVG(anims[i].k, 'joy'); AU.animal(anims[i].k); AU.note(notes[i], .4); setTimeout(() => { b.classList.remove('lit'); b.innerHTML = animalSVG(anims[i].k, 'happy'); }, 520); };
     function play() { busy = true; pos = 0; let k = 0; const step = () => { if (!alive(c)) return; if (k >= len) { busy = false; VO.say(L('¡Ahora tú!', 'Your turn!'), false); return; } lightUp(seq[k++]); setTimeout(step, 900); }; setTimeout(step, 900); }
     function tap(b) {
@@ -349,7 +349,7 @@ TYPES.emociones = {
       dots.innerHTML = Array.from({ length: rounds }, (_, i) => `<span class="${i < round ? 'on' : ''}"></span>`).join('');
       if (round >= rounds) { c.done(); return; }
       const an = pick(c.r, ANIMALS), moods = sample(c.r, MOODS, n); target = pick(c.r, moods); area.innerHTML = '';
-      els = moods.map(md => { const b = mk('div', 'card choice boing', animalSVG(an.k, md.m), area, `width:${sz}px;height:${sz}px;padding:4%`); b.md = md; b.addEventListener('pointerdown', () => choose(b)); return b; });
+      els = moods.map(md => { const b = mk('div', 'card choice boing', animalSVG(an.k, md.m), area, `width:${sz}px;height:${sz}px;padding:${Math.round(sz * .07)}px`); b.md = md; b.addEventListener('pointerdown', () => choose(b)); return b; });
       c.say(L(`Toca la carita ${target.n[0]}`, `Touch the ${target.n[1]} face`));
     }
     function choose(b) { if (G.finished || b.busy) return; markAct(); if (b.md === target) { b.busy = true; AU.sfx('ok'); sparkleEl(b, 10); VO.say(L(target.e[0], target.e[1]), false); round++; setTimeout(next, 1300); } else { AU.sfx('no'); bump(b, 'shake'); VO.say(L(`Esa carita está ${b.md.n[0]}`, `That face is ${b.md.n[1]}`), false); } }
