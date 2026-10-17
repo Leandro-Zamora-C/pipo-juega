@@ -4,6 +4,6 @@
    Este archivo no se reemplaza en las actualizaciones.
 ===================================================================== */
 window.PIPO_CONFIG = {
-  SUPABASE_URL: '',
-  SUPABASE_KEY: ''
+  SUPABASE_URL: 'https://qeiflqmnnimzxpkjcvyi.supabase.co',
+  SUPABASE_KEY: 'sb_publishable_FnxS0I9ZoiWDwPypS6cPIA_NO8jfaSV'
 };
