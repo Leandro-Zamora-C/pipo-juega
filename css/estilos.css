@@ -238,3 +238,70 @@ svg .blink { transform-box: fill-box; transform-origin: center; animation: blink
 .pghost.on { opacity: 1; filter: none; outline-color: transparent; }
 .ppiece { display: flex; align-items: center; justify-content: center; cursor: grab; filter: drop-shadow(0 6px 4px rgba(0,0,0,.2)); }
 @keyframes stackin { from { transform: translateY(-80px); opacity: 0; } }
+
+/* =====================================================================
+   v4 · GRÁFICOS CON VOLUMEN (look 3D) Y ANIMACIONES
+===================================================================== */
+/* luz desde arriba y viñeta suave en los fondos */
+#gameBg::after, .bgwrap::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 120% 70% at 50% -10%, rgba(255,255,255,.45), rgba(255,255,255,0) 60%), radial-gradient(ellipse 140% 100% at 50% 50%, rgba(0,0,0,0) 62%, rgba(40,20,80,.16) 100%); }
+/* tarjetas con relieve */
+.card { background: linear-gradient(180deg, #ffffff 0%, #f7f3ff 100%); border-radius: 26px; box-shadow: 0 8px 0 #d9cff5, 0 14px 22px rgba(60,40,120,.18), inset 0 3px 0 #fff, inset 0 -5px 0 rgba(120,90,200,.07); }
+.card.choice { transition: transform .15s cubic-bezier(.3,1.6,.5,1), box-shadow .15s; }
+.card.choice:active { transform: translateY(6px) scale(.97); box-shadow: 0 2px 0 #d9cff5, 0 4px 8px rgba(60,40,120,.15), inset 0 3px 0 #fff; }
+@media (hover: hover) { .card.choice:hover { transform: translateY(-4px) rotate(-1deg); } }
+/* botones redondos con brillo */
+.ibtn { background: linear-gradient(180deg, #fff 0%, #efe9ff 100%); box-shadow: 0 5px 0 #cfc3ef, 0 8px 12px rgba(60,40,120,.15), inset 0 2px 0 #fff; }
+.pill { background: linear-gradient(180deg, #fff 0%, #f1ebff 100%); box-shadow: 0 5px 0 #c9b8ef, 0 8px 14px rgba(60,40,120,.15), inset 0 2px 0 #fff; }
+.bigbtn { background: linear-gradient(180deg, #9cf08c 0%, #4cd964 45%, #2fae47 100%); box-shadow: 0 8px 0 #23843a, 0 14px 24px rgba(20,90,40,.35), inset 0 4px 0 rgba(255,255,255,.55), inset 0 -6px 0 rgba(0,0,0,.08); text-shadow: 0 3px 0 rgba(0,0,0,.18); }
+#lvlBadge, #starCount { background: linear-gradient(180deg, #fff, #f1ebff); box-shadow: 0 5px 0 #cfc3ef, 0 8px 12px rgba(60,40,120,.15); }
+#bubble { background: linear-gradient(180deg, #fff, #f8f5ff); box-shadow: 0 6px 0 #ddd3f5, 0 12px 20px rgba(60,40,120,.18); }
+/* profundidad para dibujos y emojis del juego */
+#stage .emo, #stage .art, #stage .artbox > svg, .btap > svg { filter: drop-shadow(0 6px 4px rgba(40,20,80,.22)); }
+#stage .card .emo, #stage .card .art { filter: drop-shadow(0 4px 2px rgba(40,20,80,.18)); }
+.title { text-shadow: 0 2px 0 #fff3, 0 6px 0 var(--acc), 0 10px 0 rgba(0,0,0,.22), 0 16px 26px rgba(0,0,0,.25); }
+#homeMascot, #winPipo, #guideMascot { filter: drop-shadow(0 10px 8px rgba(40,20,80,.25)); }
+/* festejo con rayos de sol girando */
+#win::before { content: ''; position: absolute; left: 50%; top: 42%; width: 160vmax; height: 160vmax; margin: -80vmax 0 0 -80vmax; background: repeating-conic-gradient(rgba(255,230,120,.35) 0 10deg, rgba(255,255,255,0) 10deg 20deg); animation: spin 14s linear infinite; pointer-events: none; z-index: -1; }
+#win { isolation: isolate; }
+/* las cosas aparecen con un rebote */
+.card.boing { animation: popin3d .55s cubic-bezier(.3,1.6,.5,1) both; }
+.rounddots span { box-shadow: 0 3px 0 rgba(0,0,0,.15), inset 0 2px 0 #fff; }
+.rounddots span.on { background: linear-gradient(#7dff8f, #2fc24a); transform: scale(1.15); transition: transform .3s cubic-bezier(.3,1.6,.5,1); }
+@keyframes popin3d { from { transform: perspective(600px) rotateX(55deg) scale(.4); opacity: 0; } }
+@keyframes popin { from { transform: scale(0); } }
+@keyframes popin2 { from { transform: scale(.2); opacity: 0; } }
+.popin2 { animation: popin2 .45s cubic-bezier(.3,1.6,.5,1); }
+@keyframes growup { from { transform: scale(0) translateY(40%); } }
+/* ---------- juegos para 2 años ---------- */
+.btap { position: absolute; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 3; animation: popin .5s cubic-bezier(.3,1.6,.5,1) both; touch-action: manipulation; }
+.btap .glow, .glow { filter: drop-shadow(0 0 14px #fff6a0) drop-shadow(0 0 4px #ffd23f) !important; }
+.squash { animation: squash .45s ease-out; }
+@keyframes squash { 30% { transform: scale(1.2, .78); } 60% { transform: scale(.9, 1.12); } }
+.jumpup { animation: jumpup .6s ease-out; }
+@keyframes jumpup { 35% { transform: translateY(-40%) scale(.95, 1.08); } 70% { transform: translateY(0) scale(1.12, .88); } }
+.wiggle { animation: wiggle .6s ease-in-out; }
+@keyframes wiggle { 20% { transform: rotate(-14deg); } 40% { transform: rotate(12deg); } 60% { transform: rotate(-8deg); } 80% { transform: rotate(5deg); } }
+.grow { animation: growbig .6s cubic-bezier(.3,1.6,.5,1) both; }
+@keyframes growbig { from { transform: scale(.5); } to { transform: scale(1.15); } }
+.goneup { transition: transform 1.7s cubic-bezier(.5,0,.9,.5), opacity 1.7s; transform: translateY(-120vh) !important; opacity: .3; }
+.goneleft { transition: transform 1.5s ease-in; transform: translateX(-130vw) !important; }
+.goneright { transition: transform 1.5s ease-in; transform: translateX(130vw) !important; }
+.gonedown { transition: transform 1.5s ease-in, opacity 1.5s; transform: translateY(100vh) rotate(220deg) !important; opacity: .4; }
+.zz { position: absolute; right: 2%; top: 0; font-weight: 800; color: #9fb4ff; font-size: .32em; animation: bob 2s infinite; }
+.zz small { font-size: .7em; }
+.bwhere { border-radius: 34px; }
+.bcarry { position: absolute; display: flex; align-items: center; justify-content: center; z-index: 1; filter: drop-shadow(0 10px 8px rgba(40,20,80,.22)); }
+.btgt { line-height: 0; display: flex; align-items: center; justify-content: center; }
+.bslot { position: absolute; display: flex; align-items: center; justify-content: center; font-size: 60px; line-height: 0; }
+.bslot > * { max-width: 100%; max-height: 100%; }
+.bslot .emo { font-size: min(1em, 70px); line-height: 1; }
+.bitem { position: absolute; display: flex; align-items: center; justify-content: center; cursor: grab; z-index: 5; animation: popin .5s cubic-bezier(.3,1.6,.5,1) both, floaty 2.4s ease-in-out .5s infinite; filter: drop-shadow(0 10px 8px rgba(40,20,80,.25)); }
+.bitem.dragging { animation: none; }
+@keyframes floaty { 50% { translate: 0 -8px; } }
+.barrow { position: absolute; z-index: 0; pointer-events: none; opacity: .9; }
+.bscratch { cursor: pointer; background: linear-gradient(#fff, #f3eeff); }
+.bpaint svg path { filter: drop-shadow(0 2px 0 rgba(0,0,0,.08)); }
+.bchase { position: absolute; left: 0; top: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 4; }
+.bcaught { transition: transform .45s ease-in, opacity .45s; opacity: 0; scale: 1.6; }
+.sitem, .ppiece { animation: floaty 2.6s ease-in-out infinite; }
+.sitem.dragging, .ppiece.dragging { animation: none; }

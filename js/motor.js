@@ -3,12 +3,9 @@
    efectos y arrastrar). Hecho por Leandro Zamora.
 ===================================================================== */
 const $ = s => document.querySelector(s);
-const TOTAL = 500;
-const CONFIG = {
-  // (Opcional) Para guardar el avance en la nube con Supabase. Ver docs/supabase-pipo.sql
-  SUPABASE_URL: 'https://qeiflqmnnimzxpkjcvyi.supabase.co',
-  SUPABASE_KEY: 'sb_publishable_FnxS0I9ZoiWDwPypS6cPIA_NO8jfaSV'
-};
+const TOTAL = 800;
+// (Opcional) Las llaves de Supabase ahora van en js/config.js, así este archivo se puede actualizar sin perderlas.
+const CONFIG = Object.assign({ SUPABASE_URL: '', SUPABASE_KEY: '' }, window.PIPO_CONFIG || {});
 /* ---------- aleatoriedad con semilla ---------- */
 const rng = a => () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
 const hashN = n => { let h = 2166136261 ^ n; h = Math.imul(h ^ h >>> 13, 16777619); h = Math.imul(h ^ h >>> 15, 2246822507); return (h ^ h >>> 16) >>> 0; };
@@ -100,7 +97,8 @@ const THINGS = [
   { e: '🚌', n: 'bus', en: 'bus', a: 'el' }, { e: '⛵', n: 'barco', en: 'boat', a: 'el' }, { e: '🌸', n: 'flor', en: 'flower', a: 'la' }, { e: '🍄', n: 'hongo', en: 'mushroom', a: 'el' },
   { e: '🥕', n: 'zanahoria', en: 'carrot', a: 'la' }, { e: '🍪', n: 'galleta', en: 'cookie', a: 'la' }
 ];
-const STICKERS = ['🦄', '🐬', '🦖', '🐲', '🦜', '🦩', '🐳', '🦔', '🦦', '🐿️', '🦥', '🐊', '🦓', '🦘', '🐆', '🦚', '🐉', '🦕', '🐠', '🐡', '🦀', '🐌', '🐛', '🦗', '🐞', '🌻', '🌵', '🍀', '🌺', '🍁', '🌍', '🪐', '☄️', '🌟', '🎠', '🎡', '🎢', '🚁', '🛸', '🚒', '🚜', '🏰', '🎪', '🎨', '🎺', '🥁', '🎹', '🏆', '👑', '💎'];
+const STICKERS = ['🦄', '🐬', '🦖', '🐲', '🦜', '🦩', '🐳', '🦔', '🦦', '🐿️', '🦥', '🐊', '🦓', '🦘', '🐆', '🦚', '🐉', '🦕', '🐠', '🐡', '🦀', '🐌', '🐛', '🦗', '🐞', '🌻', '🌵', '🍀', '🌺', '🍁', '🌍', '🪐', '☄️', '🌟', '🎠', '🎡', '🎢', '🚁', '🛸', '🚒', '🚜', '🏰', '🎪', '🎨', '🎺', '🥁', '🎹', '🏆', '👑', '💎',
+  '🐙', '🦑', '🐢', '🦋', '🐝', '🦉', '🦊', '🐼', '🐨', '🦁', '🐯', '🐸', '🐵', '🦒', '🦛', '🦏', '🐘', '🐧', '🐻', '🍉', '🍓', '🍭', '🧁', '🍩', '🎈', '🌈', '⛄', '🎃', '🌙', '🚂'];
 /* dibujo de un elemento: animal SVG propio o emoji */
 function art(it, px, mood) {
   if (it && it.k && AN[it.k]) return `<span class="art" style="width:${px}px;height:${px}px">${animalSVG(it.k, mood)}</span>`;

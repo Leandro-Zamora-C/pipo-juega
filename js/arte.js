@@ -108,7 +108,8 @@ function animalSVG(k, mood = 'happy') {
   // detalles
   if (a.whisk) face += `<path d="M30 66h-14M30 70l-13 4M70 66h14M70 70l13 4" stroke="${INK}" stroke-width="1.4" opacity=".55" stroke-linecap="round"/>`;
   if (mood !== 'angry' && !a.owl) face += `<circle cx="26" cy="66" r="5.5" fill="#ff8fab" opacity=".55"/><circle cx="74" cy="66" r="5.5" fill="#ff8fab" opacity=".55"/>`;
-  return `<svg viewBox="-4 -4 108 108" width="100%" height="100%" class="animal-svg" aria-hidden="true">${back}${head}${over}${face}</svg>`;
+  const vol = `<ellipse cx="50" cy="56" rx="37" ry="33" fill="url(#g3d)" pointer-events="none"/>`;
+  return `<svg viewBox="-4 -4 108 108" width="100%" height="100%" class="animal-svg" aria-hidden="true">${back}${head}${over}${vol}${face}</svg>`;
 }
 
 /* ---------- Pipo: el guía, con emociones y ropa ---------- */
@@ -154,6 +155,7 @@ function pipoSVG(mood = 'happy', outfit, color) {
     <g class="wing-r"><path d="M168 120q22-6 26 14q-16 6-34-2z" fill="#ffc21f" stroke="#e39d00" stroke-width="3"/></g>
     <ellipse cx="100" cy="112" rx="72" ry="78" fill="#ffd93d" stroke="#e8a800" stroke-width="4"/>
     <ellipse cx="100" cy="140" rx="44" ry="40" fill="#fff1a8"/>
+    <ellipse cx="100" cy="112" rx="72" ry="78" fill="url(#g3d)" pointer-events="none"/>
     <path d="M92 36q-6-22 8-30q-2 14 6 22q8-14 20-12q-12 8-12 22z" fill="#ffc21f" stroke="#e39d00" stroke-width="3"/>
     ${eyesFor(mood === 'happy' ? 'happy' : mood, 76, 124, 92, 2)}
     <circle cx="56" cy="116" r="11" fill="#ff9eb5" opacity=".8"/><circle cx="144" cy="116" r="11" fill="#ff9eb5" opacity=".8"/>

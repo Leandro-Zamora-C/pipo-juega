@@ -14,25 +14,34 @@ const WORLDS = [
   { n: ['Granja', 'Farm'], icon: '🐮', theme: 'granja' }, { n: ['Bosque', 'Forest'], icon: '🌳', theme: 'bosque' }, { n: ['Mar', 'Sea'], icon: '🐠', theme: 'mar' },
   { n: ['Jardín', 'Garden'], icon: '🌻', theme: 'jardin' }, { n: ['Ciudad', 'City'], icon: '🏙️', theme: 'ciudad' }, { n: ['Dulces', 'Candy'], icon: '🍭', theme: 'dulce' },
   { n: ['Cocina', 'Kitchen'], icon: '🍕', theme: 'cocina' }, { n: ['Noche', 'Night'], icon: '🌙', theme: 'noche' }, { n: ['Espacio', 'Space'], icon: '🚀', theme: 'espacio' },
-  { n: ['Arcoíris', 'Rainbow'], icon: '🌈', theme: 'cielo' }
+  { n: ['Arcoíris', 'Rainbow'], icon: '🌈', theme: 'cielo' }, { n: ['Juguetería', 'Toy shop'], icon: '🧸', theme: 'madera' }, { n: ['Burbujas', 'Bubbles'], icon: '🛁', theme: 'bano' },
+  { n: ['Escuela', 'School'], icon: '🏫', theme: 'aula' }, { n: ['Playa', 'Beach'], icon: '🏖️', theme: 'mar' }, { n: ['Estrellas', 'Stars'], icon: '✨', theme: 'noche' }, { n: ['Fiesta', 'Party'], icon: '🎉', theme: 'dulce' }
 ];
 const tName = t => L(TYPES[t].name[0], TYPES[t].name[1]);
 const enabledTypes = () => { const on = ORDER.filter(t => !GL.set.off.includes(t)); return on.length ? on : ORDER; };
 function ageAdj() { const a = curProfile().age || 4; return a <= 2 ? -1 : a <= 4 ? 0 : a <= 6 ? 1 : 2; }
-/* Juegos con números: salen recién al final (desde el nivel 301) y empiezan fáciles.
-   Los primeros 300 niveles son solo juegos sin números, ideales para 2 a 4 años. */
+/* =====================================================================
+   ORDEN POR DIFICULTAD (800 niveles)
+   1-300: solo juegos fáciles (2 años) · 301-560: se suman los medianos ·
+   561-800: llegan los difíciles (números, letras y lógica), poco a poco.
+   Cada juego empieza en su nivel más fácil y sube un poquito cada vez que vuelve.
+===================================================================== */
 const NUM_GAMES = ['contar', 'unir', 'numeros', 'masmenos', 'sumas', 'restas', 'quefalta', 'dados', 'reloj', 'domino', 'numcantidad', 'burbujas', 'cohete', 'tren', 'cartero', 'tiendita', 'mercado'];
-const NUM_START = 300;
+const HARD_GAMES = [...NUM_GAMES, 'vocales', 'letrainicial', 'abc', 'mayusminus', 'minombre', 'trazar', 'granja', 'patrones', 'diferencias', 'intruso', 'antesdespues', 'mezclas', 'balanza', 'herramientas', 'oficios', 'rutina', 'crecer', 'mariposa', 'banda', 'pintanumeros', 'opuestos', 'eldiferente', 'gemelos', 'laberinto'];
+const EASY_OLD = ['globos', 'popit', 'huevo', 'bano', 'pinata', 'bomberos', 'lavar', 'dentista', 'jardin', 'topos', 'velas', 'acuario', 'pizarra', 'luciernagas', 'carita', 'regalos', 'colorear', 'sonidos'];
+const TIER = t => (typeof BEBE !== 'undefined' && BEBE.includes(t)) || EASY_OLD.includes(t) ? 1 : HARD_GAMES.includes(t) ? 3 : 2;
 const LEVEL_SEQ = (() => {
-  const E = ORDER.filter(t => !NUM_GAMES.includes(t)), N = ORDER.filter(t => NUM_GAMES.includes(t)), out = []; let e = 0, k = 0;
-  for (let i = 0; i < TOTAL; i++) out.push(i >= NUM_START && N.length && (i - NUM_START) % 3 === 1 ? N[k++ % N.length] : E[e++ % E.length]);
+  const R = rng(4242), byT = { 1: [], 2: [], 3: [] }; ORDER.forEach(t => byT[TIER(t)].push(t));
+  const T1 = ['globos', ...shuf(R, byT[1].filter(t => t !== 'globos'))], T2 = shuf(R, byT[2]), T3 = shuf(R, byT[3]), idx = { 1: 0, 2: 0, 3: 0 }, L1 = { 1: T1, 2: T2, 3: T3 }, out = [];
+  const take = k => { const l = L1[k].length ? L1[k] : T1; return l[idx[k]++ % l.length]; };
+  for (let i = 0; i < TOTAL; i++) { const k = i < 300 ? 1 : i < 560 ? [2, 1, 2][i % 3] : [3, 2, 3, 1][i % 4]; out.push(take(k)); }
   return out;
 })();
+const LEVEL_OCC = (() => { const seen = {}; return LEVEL_SEQ.map(t => (seen[t] = (seen[t] || 0) + 1) - 1); })();
 function levelSpec(n) {
-  const i = n - 1, en = enabledTypes(); let type = LEVEL_SEQ[i] || ORDER[i % ORDER.length];
-  if (!en.includes(type)) { const pool = ORDER.filter(t => NUM_GAMES.includes(t) === NUM_GAMES.includes(type) && en.includes(t)), alt = pool.length ? pool : en; type = alt[i % alt.length]; }
-  const num = NUM_GAMES.includes(type), round = num ? Math.floor((i - NUM_START) / 100) : Math.floor(i / 100);
-  return { type, round, d: clamp(Math.max(0, round) + ageAdj(), 0, 4), seed: hashN(n * 7919 + 13) };
+  const i = n - 1, en = enabledTypes(); let type = LEVEL_SEQ[i] || ORDER[i % ORDER.length], occ = LEVEL_OCC[i] || 0;
+  if (!en.includes(type)) { const pool = ORDER.filter(t => TIER(t) === TIER(type) && en.includes(t)), alt = pool.length ? pool : en; type = alt[i % alt.length]; }
+  return { type, round: occ, d: clamp(occ + ageAdj(), 0, 4), seed: hashN(n * 7919 + 13) };
 }
 function show(id) { document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id)); }
 function say(t) {
@@ -137,7 +146,7 @@ function closeChest() { clearTimeout(G.nextT); $('#chest').classList.remove('on'
 function playLevel(n) { AU.init(); checkStreak(); G.mode = 'main'; closePanels(); show('game'); MUSIC.start(Math.floor((n - 1) / 50)); trans(() => startLevel(n)); }
 function startFree(type, keep) {
   AU.init(); MUSIC.start(ORDER.indexOf(type)); G.mode = 'free'; G.freeType = type; closePanels(); if (!keep) checkStreak(); show('game');
-  const d = clamp(Math.floor((S.best - 1) / 100) + Math.floor(Math.random() * 2) + ageAdj(), 0, 4);
+  const d = clamp(Math.floor((S.best - 1) / 160) + Math.floor(Math.random() * 2) + ageAdj(), 0, 4);
   startLevel(0, { type, d, round: 0, seed: Math.floor(Math.random() * 1e9) });
 }
 function goHome() { transTok++; clearTimeout(G.nextT); clearTimeout(G.winT); if (G.ctx && G.ctx.cleanup) try { G.ctx.cleanup(); } catch (e) {} G.ctx = null; if ('speechSynthesis' in window) speechSynthesis.cancel(); $('#chest').classList.remove('on'); show('home'); renderHome(); }
@@ -154,7 +163,7 @@ function checkStreak() {
 function renderHome() {
   const p = curProfile(); setMascot($('#homeMascot'), 'happy');
   document.documentElement.style.setProperty('--acc', p.color);
-  $('#homeTitle').textContent = 'Pipo Juega'; $('#homeSub').textContent = L('114 juegos · 500 niveles para aprender jugando', '114 games · 500 levels to learn and play');
+  $('#homeTitle').textContent = 'Pipo Juega'; $('#homeSub').textContent = L('200 juegos · 800 niveles para aprender jugando', '200 games · 800 levels to learn and play');
   const lv = Math.min(S.best, TOTAL), done = doneCount();
   $('#playLbl').textContent = done ? `${L('Seguir', 'Continue')} · ${L('Nivel', 'Level')} ${lv}` : L('¡A jugar!', "Let's play!");
   $('#homeBar').style.width = (done / TOTAL * 100) + '%'; $('#homeTxt').textContent = `${done} ${L('de', 'of')} ${TOTAL} · ⭐ ${S.stars}`;
@@ -171,7 +180,7 @@ function homePoke(el) { AU.init(); AU.sfx('boing'); el.innerHTML = pipoSVG('joy'
 let mapWorld = 0;
 function openMap(w) {
   AU.init(); MUSIC.start(); show('map');
-  mapWorld = w != null ? w : Math.min(9, Math.floor((Math.min(S.best, TOTAL) - 1) / 50)); renderMap();
+  mapWorld = w != null ? w : Math.min(WORLDS.length - 1, Math.floor((Math.min(S.best, TOTAL) - 1) / 50)); renderMap();
 }
 function renderMap() {
   const W = WORLDS[mapWorld], unlockedW = Math.floor((Math.min(S.best, TOTAL) - 1) / 50);
@@ -195,7 +204,7 @@ function renderMap() {
    PANELES: categorías, álbum, perfiles
 ===================================================================== */
 function closePanels() { document.querySelectorAll('.panel').forEach(p => p.classList.remove('on')); }
-function openCats() { AU.init(); $('#catTitle').textContent = L('¿A qué jugamos?', 'What shall we play?'); $('#catGrid').innerHTML = enabledTypes().map(k => `<button class="cat" onclick="startFree('${k}')"><span class="emo">${TYPES[k].icon}</span>${tName(k)}</button>`).join(''); $('#catPanel').classList.add('on'); }
+function openCats() { AU.init(); $('#catTitle').textContent = L('¿A qué jugamos?', 'What shall we play?'); $('#catGrid').innerHTML = enabledTypes().slice().sort((x, y) => TIER(x) - TIER(y)).map(k => `<button class="cat" onclick="startFree('${k}')"><span class="emo">${TYPES[k].icon}</span>${tName(k)}</button>`).join(''); $('#catPanel').classList.add('on'); }
 function openAlbum() {
   AU.init(); $('#albumTitle').innerHTML = `${L('Mis stickers', 'My stickers')} <small>(${S.stickers.length}/${STICKERS.length})</small>`;
   $('#albumHelp').textContent = L('¡Ganas un sticker nuevo cada 10 niveles! Tócalos para jugar con ellos.', 'You get a new sticker every 10 levels! Tap them to play.');
